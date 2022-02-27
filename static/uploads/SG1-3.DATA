@@ -1,0 +1,367 @@
+-- =========================================================
+RUNSPEC
+-- =========================================================
+
+TITLE
+Zapad_Chatylka_CG_1_3_681PO
+
+DIMENS
+    113    134    200  /
+OIL
+WATER
+GAS
+DISGAS
+
+METRIC
+
+TABDIMS
+    1  1  100 100 1 100 100 5* 1 / 
+    
+REGDIMS     
+ 13 1 1* 1* /
+ 
+RUNCTRL
+WELLEQUATIONS 1
+/
+ 
+EQLDIMS
+1 /
+
+GRIDOPTS
+YES 2      /
+
+START
+   1 'DEC' 2016  /
+
+ENDSCALE
+/ 
+                               
+-- =========================================================
+GRID
+-- =========================================================
+
+INCLUDE
+  '../INCLUDE/GRID.INC'  /
+  
+INCLUDE
+  '../INCLUDE/ACTNUM.INC'  /
+
+INCLUDE
+  '../INCLUDE/PORO.INC'  /
+
+INCLUDE
+  '../INCLUDE/NTG.INC'  / 
+
+INCLUDE
+  '../INCLUDE/PERMX.INC'  /
+
+INCLUDE
+  '../INCLUDE/ARRUSE.INC'  /
+
+INCLUDE
+  '../INCLUDE/ARRPERMX.INC'  /
+
+
+ARITHMETIC
+ARRUSE = IF (ARRUSE == -999.25, 0, ARRUSE)
+ARRPERMXMULT = ARRPERMX/PERMX*ARRUSE
+ARRPERMXMULT = MIN (50, ARRPERMXMULT)
+ARRPERMXMULT = IF (ARRPERMXMULT == 0, -999.25, ARRPERMXMULT )
+ARRPERMXMULT = INTERPOLATE_ML_IDW (ARRPERMXMULT, -999.25, 1, 4)
+ARRPERMXMULT = MAX (0.01, ARRPERMXMULT)
+
+PERMX= PERMX*ARRPERMXMULT
+/
+
+MINVALUE
+PERMX 1 /
+/
+  
+  
+COPY
+ PERMX PERMY /
+ PERMX PERMZ /
+/ 
+
+MULTIPLY
+PERMZ 0.01 /
+/
+
+INCLUDE
+  '../INCLUDE/MULTNUM.INC'  /
+  
+  
+MULTREGP
+ 1 1 /
+ 2 5 /
+/
+
+INIT
+                                                                                                            
+--==============================================
+EDIT
+
+--===========================================
+PROPS
+
+ 
+INCLUDE
+  '../INCLUDE/PVT.INC'  /
+ 
+
+INCLUDE
+  '../INCLUDE/SWOF_SGOF.INC'  /
+  
+SCALECRS
+YES  /
+
+
+INCLUDE
+  '../INCLUDE/SWATINIT.INC'  /
+
+ARITHMETIC  
+SWL=363.95*(PORO*100)^-2.461
+--SWL=SWATINIT
+--SWL = IF(SWL > 0.534, 0.149, SWL )
+/
+
+
+--COPY
+--SWL SWCR /
+--/
+--
+--ADD
+--SWCR 0.01 /
+--/ 
+
+
+INCLUDE
+'../INCLUDE/SWCR.INC' /
+
+INCLUDE
+  '../INCLUDE/ARRUSESWCR.INC'  /
+
+INCLUDE
+  '../INCLUDE/ARRSWCR.INC'  /
+
+
+ARITHMETIC
+ARRUSESWCR = IF (ARRUSESWCR == -999.25, 0, ARRUSESWCR)
+ARRSWCRMULT = ARRSWCR/SWCR*ARRUSESWCR
+ARRSWCRMULT = MIN (5, ARRSWCRMULT)
+ARRSWCRMULT = IF (ARRSWCRMULT == 0, -999.25, ARRSWCRMULT )
+ARRSWCRMULT = INTERPOLATE_ML_IDW (ARRSWCRMULT, -999.25, 1, 4)
+ARRSWCRMULT = MAX (0.1, ARRSWCRMULT)
+
+SWCR= SWCR*ARRSWCRMULT
+/
+
+
+INCLUDE
+'../INCLUDE/KRWR.INC' /
+
+INCLUDE
+ '../INCLUDE/ARRUSEKRWR.INC'  /
+
+INCLUDE
+  '../INCLUDE/ARRKRWR.INC'  /
+
+
+ARITHMETIC
+ARRUSEKRWR = IF (ARRUSEKRWR == -999.25, 0, ARRUSEKRWR)
+ARRKRWRMULT = ARRKRWR/KRWR*ARRUSEKRWR
+ARRKRWRMULT = MIN (100, ARRKRWRMULT)
+ARRKRWRMULT = IF (ARRKRWRMULT == 0, -999.25, ARRKRWRMULT )
+ARRKRWRMULT = INTERPOLATE_ML_IDW (ARRKRWRMULT, -999.25, 1, 4)
+ARRKRWRMULT = MAX (0.01, ARRKRWRMULT)
+
+KRWR= KRWR*ARRKRWRMULT
+/
+
+MAXVALUE
+KRWR 0.4 /
+/
+
+MINVALUE
+KRWR 0.015 /
+/
+
+
+--INCLUDE
+--'../INCLUDE/KRW.INC' /
+--
+--INCLUDE
+-- '../INCLUDE/ARRUSEKRW.INC'  /
+--
+--INCLUDE
+--  '../INCLUDE/ARRKRW.INC'  /
+--
+--
+--ARITHMETIC
+--ARRUSEKRW = IF (ARRUSEKRW == -999.25, 0, ARRUSEKRW)
+--ARRKRWMULT = ARRKRW/KRW*ARRUSEKRW
+--ARRKRWMULT = MIN (100, ARRKRWMULT)
+--ARRKRWMULT = IF (ARRKRWMULT == 0, -999.25, ARRKRWMULT )
+--ARRKRWMULT = INTERPOLATE_ML_IDW (ARRKRWMULT, -999.25, 1, 4)
+--ARRKRWMULT = MAX (0.1, ARRKRWMULT)
+--
+--KRW= KRW*ARRKRWMULT
+--/   
+--
+--MAXVALUE
+--KRW 0.85 /
+--/
+--
+--MINVALUE
+--KRW 0.425 /
+--/
+
+EQUALS
+ SOWCR 0.24  /
+ SOGCR 0.24  / 
+/
+
+--INCLUDE
+--'../INCLUDE/SOWCR.INC' /
+--
+--INCLUDE
+-- '../INCLUDE/ARRUSESOWCR.INC'  /
+--
+--INCLUDE
+--  '../INCLUDE/ARRSOWCR.INC'  /
+--
+--
+--ARITHMETIC
+--ARRUSESOWCR = IF (ARRUSESOWCR == -999.25, 0, ARRUSESOWCR)
+--ARRSOWCRMULT = ARRSOWCR/SOWCR*ARRUSESOWCR
+--ARRSOWCRMULT = MIN (100, ARRSOWCRMULT)
+--ARRSOWCRMULT = IF (ARRSOWCRMULT == 0, -999.25, ARRSOWCRMULT )
+--ARRSOWCRMULT = INTERPOLATE_ML_IDW (ARRSOWCRMULT, -999.25, 1, 4)
+--ARRSOWCRMULT = MAX (0.1, ARRSOWCRMULT)
+--
+--SOWCR= SOWCR*ARRSOWCRMULT
+--/
+--
+--MAXVALUE
+--SOWCR 0.285 /
+--/
+--
+--MINVALUE
+--SOWCR 0.2 /
+--/ 
+
+--ARITHMETIC
+--KRW=7E-07*(100*PORO)^4.4398            
+--KRWR=2E-08*(100*PORO)^5.3812  
+--KRO=0.0002*(100*PORO)^2.4924
+--/
+
+ARITHMETIC
+SWL=IF(SWL<0.050,0.050,SWL)
+SWL=IF(SWL>0.538,0.538,SWL)
+SWL=IF(SWL>SWATINIT,SWATINIT,SWL)
+SWL=IF(SWL>SWCR,SWCR*0.99,SWL) 
+SWCR=IF(SWCR<0.050,0.050,SWCR)
+SWCR=IF(SWCR>0.538,0.538,SWCR)
+SWCR=IF(SWCR<SWL,SWL+0.01,SWCR)
+SWCR=IF(SWCR>1-SOWCR,1-SOWCR-0.1,SWCR)
+/
+
+COPY
+-- SWL SWCR /
+ SWL SGU  /
+/
+
+ADD
+--SWCR 0.01 /
+SGU   -1  /        
+/
+
+MULTIPLY
+SGU   -1  /
+/
+
+--EQUALS
+-- SGCR 0.1 /
+--/
+
+--============================================================
+REGIONS
+-- =========================================================
+ 
+--INCLUDE                       
+--  '../INCLUDE/EQLNUM.INC' /  
+    
+--COPY
+--EQLNUM PVTNUM /
+--PVTNUM SATNUM /
+--/
+
+--INCLUDE                       
+--  '../INCLUDE/FIPNUM.INC' /  
+
+INCLUDE                       
+  '../INCLUDE/FIPNUM.INC' /  
+
+                     
+
+-- =========================================================
+SOLUTION
+-- =========================================================
+
+EQUIL
+ 2795 247.7  2795  0   1000  0     1    0    0 /
+/
+
+RSVD
+2000 118.123  
+3000 118.122  /
+  
+-- ============================================================
+SUMMARY
+-- =========================================================
+
+INCLUDE
+  '../INCLUDE/SUMMARY.INC' /
+
+-- =====================================================================
+RECU
+-- =========================================================
+
+--USERFILE
+--'../INCLUDE/ACTION.INC' /
+
+
+TFIL
+'../INCLUDE/TRACK1.INC'
+
+HUNI
+sm3/day sm3/day ksm3 ksm3 bara /
+/
+
+HFOR WELL 'DD.MM.YYYY' QOIL QGAS QWAT QLIQ THP BHP WEFA QWIN /
+/
+
+HFIL
+'../INCLUDE/HISTORY.INC'/  
+/
+
+EFORm   WELL  'DD.MM.YYYY'  MDL  MDU  DIAM  SKIN  MULT
+EFIL
+'../INCLUDE/EVENTS.INC'/
+
+INCLUDE
+'../INCLUDE/PERF1.INC' /
+
+EFILe
+'../INCLUDE/WFRACP.INC' /
+
+READ 1 DEC 2016
+
+ARRAY EQUA month  END
+3.0 /
+GENE  FLIP  REST  WELL CMPL
+
+READ 1 NOV 2021
+
+STOP

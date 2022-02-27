@@ -1,0 +1,181 @@
+-- Файл создан tNavigator v21.1-1713-ge08f9a3b387.
+-- Copyright (C) RFDynamics 2005-2021.
+-- Все права защищены.
+
+
+----------------
+RUNSPEC
+----------------
+
+
+TITLE
+    Zapad_Chatylka_CG_1_3_681PO
+
+
+DIMENS
+ 113 134 200 /
+
+
+OIL
+WATER
+GAS
+DISGAS
+
+METRIC
+
+TABDIMS
+ 1 1 100 100 1 100 100 5* 1 /
+
+REGDIMS
+ 13 1 /
+
+EQLDIMS
+ 1 /
+
+GRIDOPTS
+ YES 2 /
+
+START
+ 01 DEC 2016 /
+
+-- ENDSCALE
+--  /
+
+WELLDIMS
+ 200 200 2 200 /
+
+UNIFOUT
+
+----------------
+GRID
+----------------
+
+
+INCLUDE
+'SG1-3_saved_grid.inc' /
+
+----------------
+PROPS
+----------------
+
+
+INCLUDE
+'SG1-3_saved_props.inc' /
+
+
+----------------
+REGIONS
+----------------
+
+
+INCLUDE
+'SG1-3_saved_regs.inc' /
+
+
+----------------
+SOLUTION
+----------------
+
+
+INCLUDE
+'SG1-3_saved_init.inc' /
+
+
+----------------
+SUMMARY
+----------------
+
+RPTONLY
+DATE
+FGPR
+FGPT
+FLPR
+FLPT
+FOPR
+FOPT
+FWPR
+FWPT
+FWIR
+FWIT
+FGOR
+FWCT
+FGSAT
+FOSAT
+FWSAT
+FOIP
+FPR
+FRS
+WGPT
+/
+WLPT
+/
+WOPT
+/
+WWIT
+/
+WGPR
+/
+WLPR
+/
+WOPR
+/
+WWIR
+/
+WGOR
+/
+WWCT
+/
+WBHP
+/
+FGPRH
+FGPTH
+FLPRH
+FLPTH
+FOPRH
+FOPTH
+FWPRH
+FWPTH
+FWIRH
+FWITH
+FGORH
+FWCTH
+WGPRH
+/
+WGPTH
+/
+WLPRH
+/
+WLPTH
+/
+WOPRH
+/
+WOPTH
+/
+WWPRH
+/
+WWPTH
+/
+WWIRH
+/
+WWITH
+/
+WGORH
+/
+WWCTH
+/
+WBHPH
+/
+
+
+----------------
+SCHEDULE
+----------------
+RPTRST
+    'BASIC=2' /
+    
+INCLUDE
+'SG1-3_saved_sch.inc' /
+
+{{ SIMGAME }}
+
+END

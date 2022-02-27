@@ -1,0 +1,9 @@
+command = '/home/sevrn/Documents/GitHub/env/bin/gunicorn'
+pythonpath = '/home/sevrn/Documents/GitHub/parser1-main'
+bind = 'localhost:8080'
+workers = 4
+timeout = 510
+user = 'sevrn'
+limit_request_fields = 32000
+limit_request_field_size = 0
+raw_env = 'DJANGO_SETTINGS_MODULE=parser1.settings'
