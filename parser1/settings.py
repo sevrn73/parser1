@@ -9,12 +9,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'simgamegubkin@gmail.com'
-EMAIL_HOST_PASSWORD = 'QWErty123456'
-EMAIL_PORT = 465
-EMAIL_USE_SSL = True
-
 INSTALLED_APPS = [
     'app',
     'django.contrib.admin',

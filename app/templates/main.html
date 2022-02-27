@@ -1,9 +1,7 @@
 <html>
-
-    <form metyhod="post" type="multipart/form_data">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <input style="display: none;" type="file" id="fileElem" onchange="handleFiles(this.files)" accept=".data">
-        <label class="navbtn" for="fileElem">input file</label>
+        <input type="file" name="myfile" />
+        <input type="submit" name="submit" value="Upload" />
     </form>
-   
 </html>
